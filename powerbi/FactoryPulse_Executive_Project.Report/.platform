@@ -1,0 +1,11 @@
+{
+  "$schema": "https://developer.microsoft.com/json-schemas/fabric/gitIntegration/platformProperties/2.0.0/schema.json",
+  "metadata": {
+    "type": "Report",
+    "displayName": "FactoryPulse_Executive_Project"
+  },
+  "config": {
+    "version": "2.0",
+    "logicalId": "6bd63a88-fcac-4e0e-bb06-b174487f71c0"
+  }
+}

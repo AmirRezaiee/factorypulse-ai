@@ -1,0 +1,57 @@
+relationship 1a031e1c-70a9-4840-920d-d5c3a3cad839
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactModuleProduction.production_date
+	toColumn: LocalDateTable_dd86d64c-6517-4b84-b958-0aa4d01132d3.Date
+
+relationship cb0a8940-eabd-450f-b081-6960a076d130
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactModuleProduction.journey_started_at
+	toColumn: LocalDateTable_ee9b7d63-3433-42b8-99d5-343488615a42.Date
+
+relationship 88c04f13-f642-40dc-acf7-49195ce835e7
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactModuleProduction.packing_completed_at
+	toColumn: LocalDateTable_165dd758-836b-435a-b4a7-fa81ccd9d162.Date
+
+relationship AutoDetected_849a5b1c-3857-4749-a81c-d3ccaa305db8
+	fromColumn: FactModuleProduction.line_id
+	toColumn: DimLine.line_id
+
+relationship AutoDetected_287d8e4f-6253-4bd0-8178-2728a029be56
+	fromColumn: FactModuleQuality.line_id
+	toColumn: DimLine.line_id
+
+relationship cd216d32-e346-4896-9d77-a24ce0b025ef
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactLineCapacityHourly.timestamp
+	toColumn: LocalDateTable_846884ac-5480-4b8a-a577-88c530363cd8.Date
+
+relationship f3aa5d2c-99ad-444a-85c6-ad37f00c8baf
+	joinOnDateBehavior: datePartOnly
+	fromColumn: FactLineCapacityHourly.hour_end
+	toColumn: LocalDateTable_1b49f340-6192-4504-b427-2d8bdff4495e.Date
+
+relationship AutoDetected_9a278667-ad40-4dfc-a71d-aa179e882f54
+	fromColumn: FactLineCapacityHourly.line_id
+	toColumn: DimLine.line_id
+
+relationship AutoDetected_035f2c6f-8afb-44c2-9df6-152e448bb6da
+	fromColumn: FactLineAvailabilityDaily.line_id
+	toColumn: DimLine.line_id
+
+relationship 467dbc72-e645-bf19-00fa-062f7fddc765
+	fromColumn: FactModuleProduction.packing_date
+	toColumn: DimDate.date
+
+relationship 0ad91320-6407-d03f-6d17-ad5931470181
+	fromColumn: FactModuleQuality.production_date
+	toColumn: DimDate.date
+
+relationship dfaaa4c1-8f5a-908e-6bab-ec87951d0ca6
+	fromColumn: FactLineCapacityHourly.date
+	toColumn: DimDate.date
+
+relationship 477db7d4-6f57-03a5-741b-b431938cb077
+	fromColumn: FactLineAvailabilityDaily.date
+	toColumn: DimDate.date
+

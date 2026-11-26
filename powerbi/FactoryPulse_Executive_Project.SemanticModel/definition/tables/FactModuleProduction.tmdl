@@ -1,0 +1,162 @@
+table FactModuleProduction
+	lineageTag: 987124a4-8ba5-4a72-8141-3739381b86dc
+
+	measure 'Packed Modules' = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT(FactModuleProduction[module_id]),
+			    FactModuleProduction[packing_completed] = TRUE()
+			)
+			
+			```
+		formatString: 0
+		lineageTag: b12fffd5-20ee-4980-9e4f-6bba649124e2
+
+	measure 'Packed Modules (Full Days)' =
+			VAR CurrentDay = SELECTEDVALUE(DimDate[date])
+			RETURN
+			    IF(
+			        CurrentDay IN { DATE(2026, 7, 1), DATE(2026, 9, 29) },
+			        BLANK(),
+			        [Packed Modules]
+			    )
+		formatString: 0
+
+	column module_id
+		dataType: string
+		lineageTag: cac41d6a-adf0-46de-9634-ab02484dac4e
+		summarizeBy: none
+		sourceColumn: module_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_id
+		dataType: string
+		lineageTag: b2409785-cd17-4d31-b3de-c473237d5e77
+		summarizeBy: none
+		sourceColumn: line_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column production_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 74293383-5831-4bb9-abf1-4914d3a48a14
+		summarizeBy: none
+		sourceColumn: production_date
+
+		variation Variation
+			isDefault
+			relationship: 1a031e1c-70a9-4840-920d-d5c3a3cad839
+			defaultHierarchy: LocalDateTable_dd86d64c-6517-4b84-b958-0aa4d01132d3.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column shift_id
+		dataType: string
+		lineageTag: 26f26bf3-c088-42cb-a032-9c89fbdc8d60
+		summarizeBy: none
+		sourceColumn: shift_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bom_type
+		dataType: string
+		lineageTag: b0585d2b-26e5-4028-a7d0-6def2f3af7bc
+		summarizeBy: none
+		sourceColumn: bom_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column nominal_power_w
+		dataType: int64
+		formatString: 0
+		lineageTag: 2ee6a0de-c570-4464-b9c8-ac643351fd78
+		summarizeBy: sum
+		sourceColumn: nominal_power_w
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_synthetic
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a739876f-76c2-4448-a875-77f776f4566a
+		summarizeBy: none
+		sourceColumn: is_synthetic
+
+		annotation SummarizationSetBy = Automatic
+
+	column journey_started_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 714c64bb-bf77-4d46-a9b1-fc21051d9f02
+		summarizeBy: none
+		sourceColumn: journey_started_at
+
+		variation Variation
+			isDefault
+			relationship: cb0a8940-eabd-450f-b081-6960a076d130
+			defaultHierarchy: LocalDateTable_ee9b7d63-3433-42b8-99d5-343488615a42.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column packing_completed_at
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c09d2b1d-ecc1-4c93-91db-675ceaee40e8
+		summarizeBy: none
+		sourceColumn: packing_completed_at
+
+		variation Variation
+			isDefault
+			relationship: 88c04f13-f642-40dc-acf7-49195ce835e7
+			defaultHierarchy: LocalDateTable_165dd758-836b-435a-b4a7-fa81ccd9d162.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column packing_completed
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: e97fb10a-2857-4ccf-9ca7-80a66ea96078
+		summarizeBy: none
+		sourceColumn: packing_completed
+
+		annotation SummarizationSetBy = Automatic
+
+	column packing_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 36738cfb-0a4b-46fa-a709-7dff46db5483
+		summarizeBy: none
+		sourceColumn: packing_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column journey_duration_min
+		dataType: double
+		lineageTag: 384cee48-a8a6-4d46-9e0f-f39fe9afdd51
+		summarizeBy: sum
+		sourceColumn: journey_duration_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactModuleProduction = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Azur Project\factorypulse-ai\data\gold\fact_module_production.csv"),[Delimiter=",", Columns=12, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"module_id", type text}, {"line_id", type text}, {"production_date", type date}, {"shift_id", type text}, {"bom_type", type text}, {"nominal_power_w", Int64.Type}, {"is_synthetic", type logical}, {"journey_started_at", type datetime}, {"packing_completed_at", type datetime}, {"packing_completed", type logical}, {"packing_date", type date}, {"journey_duration_min", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

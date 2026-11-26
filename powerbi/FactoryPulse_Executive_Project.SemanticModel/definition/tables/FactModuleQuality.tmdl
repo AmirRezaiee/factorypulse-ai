@@ -1,0 +1,224 @@
+table FactModuleQuality
+	lineageTag: 868426d3-9d85-4d5f-95eb-c8a4922d534e
+
+	measure 'Repair Modules' = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT(FactModuleQuality[module_id]),
+			    FactModuleQuality[has_repair] = TRUE()
+			)
+			
+			```
+		formatString: 0
+		lineageTag: db8a5c77-7d7c-406e-89f3-6a158ffd3654
+
+	measure 'Repair Rate %' = ```
+			
+			DIVIDE(
+			    [Repair Modules],
+			    DISTINCTCOUNT(FactModuleQuality[module_id]),
+			    0
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 90b442d1-5015-49e7-a480-7f6c266ad3ed
+
+	measure 'Retest Modules' = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT(FactModuleQuality[module_id]),
+			    FactModuleQuality[has_simulator_retest] = TRUE()
+			)
+			
+			```
+		formatString: 0
+		lineageTag: c7028d08-97c2-4c91-bbc9-b4e45db7bd63
+
+	measure 'Retest Rate %' = ```
+			
+			DIVIDE(
+			    [Retest Modules],
+			    DISTINCTCOUNT(FactModuleQuality[module_id]),
+			    0
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: a0b17841-090c-47f8-9747-d1451e7540ca
+
+	measure 'Quality Intervention Modules' = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT(FactModuleQuality[module_id]),
+			    FactModuleQuality[has_quality_intervention] = TRUE()
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 6012f734-58f5-469b-af69-d7292685995c
+
+	measure 'Quality Intervention Rate %' = ```
+			
+			DIVIDE(
+			    [Quality Intervention Modules],
+			    DISTINCTCOUNT(FactModuleQuality[module_id]),
+			    0
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 9a531a0a-f7df-498f-bb9c-8476163e3945
+
+	measure 'WIP Rack Modules' = ```
+			
+			CALCULATE(
+			    DISTINCTCOUNT(FactModuleQuality[module_id]),
+			    FactModuleQuality[has_wip_rack_event] = TRUE()
+			)
+			
+			```
+		formatString: 0
+		lineageTag: 68472b56-ab96-482b-a446-b21ef18b0b34
+
+	measure 'WIP Rack Event Rate %' = ```
+			
+			DIVIDE(
+			    [WIP Rack Modules],
+			    DISTINCTCOUNT(FactModuleQuality[module_id]),
+			    0
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 54274490-b92a-457b-99ca-c4123dff5242
+
+	column module_id
+		dataType: string
+		lineageTag: 54d83076-0d7d-4416-81d7-9c038d82d160
+		summarizeBy: none
+		sourceColumn: module_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_id
+		dataType: string
+		lineageTag: e4867b3d-26c7-4fd1-b6c9-0895ca8d065d
+		summarizeBy: none
+		sourceColumn: line_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column production_date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: dda4e5c7-3f53-4774-8104-eb1ddace3cd8
+		summarizeBy: none
+		sourceColumn: production_date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column shift_id
+		dataType: string
+		lineageTag: 76b331c4-3b12-42e3-8378-4a281fd74195
+		summarizeBy: none
+		sourceColumn: shift_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column bom_type
+		dataType: string
+		lineageTag: 15353148-a87f-43e7-8d84-47eebb757460
+		summarizeBy: none
+		sourceColumn: bom_type
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_synthetic
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 94dc8e61-1aac-48c6-89ca-d3b36313e1a3
+		summarizeBy: none
+		sourceColumn: is_synthetic
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_repair
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 4839f338-c199-4724-84bc-28fd79f40f2c
+		summarizeBy: none
+		sourceColumn: has_repair
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_simulator_retest
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 1a83c3ab-107f-4a86-a682-7a4a3f082247
+		summarizeBy: none
+		sourceColumn: has_simulator_retest
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_a_rack
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a796ad96-2662-4262-9ac3-eb6d143f34b0
+		summarizeBy: none
+		sourceColumn: has_a_rack
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_h_rack
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: c8e84f71-486d-4482-b130-8362c20b1c47
+		summarizeBy: none
+		sourceColumn: has_h_rack
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_quality_intervention
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 566858c2-2c52-4bbc-905c-96186bcf977b
+		summarizeBy: none
+		sourceColumn: has_quality_intervention
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_wip_rack_event
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 360d42dd-0815-4149-9773-3962e46b8e5e
+		summarizeBy: none
+		sourceColumn: has_wip_rack_event
+
+		annotation SummarizationSetBy = Automatic
+
+	column has_special_event
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: ab81f046-617c-490a-a146-33a1857aaa0b
+		summarizeBy: none
+		sourceColumn: has_special_event
+
+		annotation SummarizationSetBy = Automatic
+
+	partition FactModuleQuality = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Azur Project\factorypulse-ai\data\gold\fact_module_quality.csv"),[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"module_id", type text}, {"line_id", type text}, {"production_date", type date}, {"shift_id", type text}, {"bom_type", type text}, {"is_synthetic", type logical}, {"has_repair", type logical}, {"has_simulator_retest", type logical}, {"has_a_rack", type logical}, {"has_h_rack", type logical}, {"has_quality_intervention", type logical}, {"has_wip_rack_event", type logical}, {"has_special_event", type logical}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

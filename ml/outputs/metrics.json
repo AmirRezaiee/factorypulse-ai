@@ -1,0 +1,101 @@
+{
+  "dataset": "Synthetic solar manufacturing; not actual factory production data",
+  "task": "next-day repair rate by line (%)",
+  "prediction_time": "end of production day t",
+  "split": "chronological, common cutoff across lines",
+  "train_rows": 264,
+  "test_rows": 68,
+  "train_last_target_date": "2026-09-11",
+  "test_first_target_date": "2026-09-12",
+  "test_last_target_date": "2026-09-28",
+  "model": {
+    "mae_pp": 4.2863,
+    "rmse_pp": 5.2553,
+    "r2": -0.3237
+  },
+  "persistence_baseline": {
+    "mae_pp": 5.1471,
+    "rmse_pp": 6.7519,
+    "r2": -1.185
+  },
+  "historical_line_mean_baseline": {
+    "mae_pp": 3.789,
+    "rmse_pp": 4.7528,
+    "r2": -0.0827
+  },
+  "mae_improvement_pct": 16.72,
+  "per_line": {
+    "E4": {
+      "rows": 17,
+      "model": {
+        "mae_pp": 5.0477,
+        "rmse_pp": 5.8231,
+        "r2": -0.1597
+      },
+      "baseline": {
+        "mae_pp": 7.6471,
+        "rmse_pp": 9.0749,
+        "r2": -1.8166
+      },
+      "historical_mean": {
+        "mae_pp": 4.8307,
+        "rmse_pp": 5.7892,
+        "r2": -0.1462
+      }
+    },
+    "E5": {
+      "rows": 17,
+      "model": {
+        "mae_pp": 3.9181,
+        "rmse_pp": 4.7676,
+        "r2": -0.904
+      },
+      "baseline": {
+        "mae_pp": 3.5294,
+        "rmse_pp": 5.145,
+        "r2": -1.2174
+      },
+      "historical_mean": {
+        "mae_pp": 2.9144,
+        "rmse_pp": 3.4976,
+        "r2": -0.0248
+      }
+    },
+    "E6": {
+      "rows": 17,
+      "model": {
+        "mae_pp": 3.9744,
+        "rmse_pp": 5.1149,
+        "r2": -0.0801
+      },
+      "baseline": {
+        "mae_pp": 5.2941,
+        "rmse_pp": 6.8599,
+        "r2": -0.9429
+      },
+      "historical_mean": {
+        "mae_pp": 3.4848,
+        "rmse_pp": 4.9293,
+        "r2": -0.0032
+      }
+    },
+    "E7": {
+      "rows": 17,
+      "model": {
+        "mae_pp": 4.2052,
+        "rmse_pp": 5.2605,
+        "r2": -0.7199
+      },
+      "baseline": {
+        "mae_pp": 4.1176,
+        "rmse_pp": 5.145,
+        "r2": -0.6452
+      },
+      "historical_mean": {
+        "mae_pp": 3.926,
+        "rmse_pp": 4.5067,
+        "r2": -0.2623
+      }
+    }
+  }
+}

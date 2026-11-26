@@ -1,0 +1,122 @@
+table FactLineAvailabilityDaily
+	lineageTag: a3be9e96-3ef0-4864-89da-41ecdc853b98
+
+	measure 'Planned Downtime (Hours)' = ```
+			
+			DIVIDE(
+			    SUM(FactLineAvailabilityDaily[planned_stop_min]),
+			    60,
+			    0
+			)
+			
+			```
+		formatString: 0.00
+		lineageTag: 2327311e-b216-4068-b775-0acdc08edd08
+
+	measure 'Unplanned Downtime (Hours)' = ```
+			
+			DIVIDE(
+			    SUM(FactLineAvailabilityDaily[unplanned_stop_min]),
+			    60,
+			    0
+			)
+			
+			```
+		formatString: 0.00
+		lineageTag: f0a7769c-e4be-454f-9a2d-9f70470a4371
+
+	measure 'Line Availability %' = ```
+			
+			DIVIDE(
+			    SUM(FactLineAvailabilityDaily[available_min]),
+			    SUM(FactLineAvailabilityDaily[calendar_min]),
+			    0
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 92dda74a-ac7f-4800-a4e6-46974b4c42d5
+
+	column line_id
+		dataType: string
+		lineageTag: 00b4c751-3fb1-4620-b8c7-7880fbf2e59d
+		summarizeBy: none
+		sourceColumn: line_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 151885d3-5c4d-4839-8dd4-4bb38b051a4e
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	column calendar_min
+		dataType: double
+		lineageTag: c8c8edfa-3793-4f3c-b1b4-aea605971bcc
+		summarizeBy: sum
+		sourceColumn: calendar_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column planned_stop_min
+		dataType: double
+		lineageTag: 2488d0f3-053c-4a48-97e6-c2f3f3b573fd
+		summarizeBy: sum
+		sourceColumn: planned_stop_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unplanned_stop_min
+		dataType: double
+		lineageTag: c369f388-9cc3-4dd4-8fc1-dab1ce139eaa
+		summarizeBy: sum
+		sourceColumn: unplanned_stop_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column available_min
+		dataType: double
+		lineageTag: cee6d22e-5530-49fb-ad64-9d86362d51b2
+		summarizeBy: sum
+		sourceColumn: available_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column availability_pct
+		dataType: double
+		lineageTag: 0df44869-2e99-41bf-aa5c-b4063d992521
+		summarizeBy: sum
+		sourceColumn: availability_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	partition FactLineAvailabilityDaily = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Azur Project\factorypulse-ai\data\gold\line_availability_daily.csv"),[Delimiter=",", Columns=7, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"line_id", type text}, {"date", type date}, {"calendar_min", type number}, {"planned_stop_min", type number}, {"unplanned_stop_min", type number}, {"available_min", type number}, {"availability_pct", type number}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

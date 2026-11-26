@@ -1,0 +1,5 @@
+line_id,incident_count,raw_downtime_min,merged_downtime_min,overlap_removed_min
+E4,17,956,956.0,0.0
+E5,6,315,315.0,0.0
+E6,14,776,776.0,0.0
+E7,10,463,463.0,0.0

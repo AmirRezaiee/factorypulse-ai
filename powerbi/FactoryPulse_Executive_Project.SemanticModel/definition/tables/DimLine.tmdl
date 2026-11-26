@@ -1,0 +1,42 @@
+table DimLine
+	lineageTag: 647a6e16-8de3-436f-984c-27d06391740a
+
+	column line_id
+		dataType: string
+		lineageTag: 99687ffc-95ba-46bd-bfec-2007d96c6dfd
+		summarizeBy: none
+		sourceColumn: line_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_name
+		dataType: string
+		lineageTag: 85dfee0b-a6cf-4dbd-aee6-50aa503725db
+		summarizeBy: none
+		sourceColumn: line_name
+
+		annotation SummarizationSetBy = Automatic
+
+	column is_synthetic
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: a34816f6-32e7-49c7-a015-ccbd54c4c833
+		summarizeBy: none
+		sourceColumn: is_synthetic
+
+		annotation SummarizationSetBy = Automatic
+
+	partition DimLine = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Azur Project\factorypulse-ai\data\gold\dim_line.csv"),[Delimiter=",", Columns=3, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"line_id", type text}, {"line_name", type text}, {"is_synthetic", type logical}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+

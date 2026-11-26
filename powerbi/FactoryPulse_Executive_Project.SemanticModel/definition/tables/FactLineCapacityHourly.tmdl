@@ -1,0 +1,163 @@
+table FactLineCapacityHourly
+	lineageTag: 450be8ef-1f8b-4f7c-815d-a2d75e688cb6
+
+	measure 'Effective Capacity %' = ```
+			
+			DIVIDE(
+			    AVERAGE(
+			        FactLineCapacityHourly[estimated_effective_capacity_pct]
+			    ),
+			    100,
+			    0
+			)
+			
+			```
+		formatString: 0.00%;-0.00%;0.00%
+		lineageTag: 79ccc309-ee75-4c82-b196-962108cfd35a
+
+	column line_id
+		dataType: string
+		lineageTag: f6d426f3-508f-4404-9c0b-c3c9ec1914e2
+		summarizeBy: none
+		sourceColumn: line_id
+
+		annotation SummarizationSetBy = Automatic
+
+	column timestamp
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: 1f0b41c2-6ad8-4d66-84bc-4d1058a65c50
+		summarizeBy: none
+		sourceColumn: timestamp
+
+		variation Variation
+			isDefault
+			relationship: cd216d32-e346-4896-9d77-a24ce0b025ef
+			defaultHierarchy: LocalDateTable_846884ac-5480-4b8a-a577-88c530363cd8.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column hour_end
+		dataType: dateTime
+		formatString: General Date
+		lineageTag: c8813b24-f476-4789-8f19-13e419a8344d
+		summarizeBy: none
+		sourceColumn: hour_end
+
+		variation Variation
+			isDefault
+			relationship: f3aa5d2c-99ad-444a-85c6-ad37f00c8baf
+			defaultHierarchy: LocalDateTable_1b49f340-6192-4504-b427-2d8bdff4495e.'Date Hierarchy'
+
+		annotation SummarizationSetBy = Automatic
+
+	column estimated_capacity_pct
+		dataType: double
+		lineageTag: b4693c4f-f065-40a2-9a73-5433ac059b45
+		summarizeBy: sum
+		sourceColumn: estimated_capacity_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column estimated_effective_capacity_pct
+		dataType: double
+		lineageTag: 6745b866-ddb3-40fb-9989-9c9db11052bd
+		summarizeBy: sum
+		sourceColumn: estimated_effective_capacity_pct
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column bottleneck_stage
+		dataType: string
+		lineageTag: 334e0ee0-ba46-4b70-bd72-581464836d3b
+		summarizeBy: none
+		sourceColumn: bottleneck_stage
+
+		annotation SummarizationSetBy = Automatic
+
+	column line_stopped
+		dataType: boolean
+		formatString: """TRUE"";""TRUE"";""FALSE"""
+		lineageTag: 66dbc6c7-16ad-4a86-b474-2d292e34c929
+		summarizeBy: none
+		sourceColumn: line_stopped
+
+		annotation SummarizationSetBy = Automatic
+
+	column stop_reason
+		dataType: string
+		lineageTag: f32ee832-2b8b-4af1-bded-aaf30c029917
+		summarizeBy: none
+		sourceColumn: stop_reason
+
+		annotation SummarizationSetBy = Automatic
+
+	column planned_stop_min
+		dataType: double
+		lineageTag: 596c0213-f1c3-4e05-9bae-d08f2e3552d7
+		summarizeBy: sum
+		sourceColumn: planned_stop_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column unplanned_stop_min
+		dataType: double
+		lineageTag: 799a0825-33e7-4ec1-85fc-cded238f0a12
+		summarizeBy: sum
+		sourceColumn: unplanned_stop_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column total_stop_min
+		dataType: double
+		lineageTag: 2cef1b21-0ec5-4fdc-a315-7170621478f1
+		summarizeBy: sum
+		sourceColumn: total_stop_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column available_min
+		dataType: double
+		lineageTag: 9f8ca7ab-f1e9-4c05-8217-6395a811ab42
+		summarizeBy: sum
+		sourceColumn: available_min
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation PBI_FormatHint = {"isGeneralNumber":true}
+
+	column date
+		dataType: dateTime
+		formatString: Long Date
+		lineageTag: 84f36c01-43bd-4515-9484-d6d5c7f7fd0b
+		summarizeBy: none
+		sourceColumn: date
+
+		annotation SummarizationSetBy = Automatic
+
+		annotation UnderlyingDateTimeDataType = Date
+
+	partition FactLineCapacityHourly = m
+		mode: import
+		source =
+				let
+				    Source = Csv.Document(File.Contents("D:\Azur Project\factorypulse-ai\data\gold\fact_line_capacity_hourly.csv"),[Delimiter=",", Columns=13, Encoding=1252, QuoteStyle=QuoteStyle.None]),
+				    #"Promoted Headers" = Table.PromoteHeaders(Source, [PromoteAllScalars=true]),
+				    #"Changed Type" = Table.TransformColumnTypes(#"Promoted Headers",{{"line_id", type text}, {"timestamp", type datetime}, {"hour_end", type datetime}, {"estimated_capacity_pct", type number}, {"estimated_effective_capacity_pct", type number}, {"bottleneck_stage", type text}, {"line_stopped", type logical}, {"stop_reason", type text}, {"planned_stop_min", type number}, {"unplanned_stop_min", type number}, {"total_stop_min", type number}, {"available_min", type number}, {"date", type date}})
+				in
+				    #"Changed Type"
+
+	annotation PBI_NavigationStepName = Navigation
+
+	annotation PBI_ResultType = Table
+
